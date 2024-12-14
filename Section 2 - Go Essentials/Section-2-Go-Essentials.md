@@ -5,3 +5,6 @@ is given for the variable, it will automaticaly hava a default value:
 * float -> 0.0
 * string -> ""
 * bool -> false
+
+If there is a modulo in the same folder as your code, it's possible
+run the code with just `go run .` to run the module.
