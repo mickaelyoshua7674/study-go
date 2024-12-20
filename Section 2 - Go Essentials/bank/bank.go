@@ -1,8 +1,43 @@
 package main
-import "fmt"
+import (
+    "errors"
+    "fmt"
+    "os"
+    "strconv"
+)
+
+const balanceFile = "balance.txt"
+
+func getBalanceFromFile() (float64, error) {
+    data, errReadFile := os.ReadFile(balanceFile)
+    if errReadFile != nil {
+        return 1000., errors.New("failed to find balance file")
+    }
+
+    balance, errParseFloat := strconv.ParseFloat(string(data), 64)
+    if errParseFloat != nil {
+        return 1000., errors.New("failed to parse stored balance value")
+    }
+    return balance, nil
+}
+
+func writeBalanceToFile(balance float64) {
+    balanceText := fmt.Sprint(balance)
+    os.WriteFile(balanceFile, []byte(balanceText), 0644)
+    // 0644 is a file permission notation where the owner of the file will be
+    // able to write and read the file, whereas other users can only read it.
+    // https://www.redhat.com/en/blog/linux-file-permissions-explained
+}
 
 func main() {
-    accountBalance := 1000.
+    accountBalance, err := getBalanceFromFile()
+    if err != nil {
+        fmt.Println("ERROR")
+        fmt.Println(err)
+        fmt.Println("----------")
+        panic("can't continue")
+        // panic() function will stop the program execution in a way that looks like it crashed
+    }
 
     fmt.Printf("\n*** Welcome to Go Bank! ***\n\n")
     for {
@@ -27,6 +62,7 @@ func main() {
             }
             accountBalance += depositAmount
             fmt.Printf("Your new balance is %.2f\n\n", accountBalance)
+            writeBalanceToFile(accountBalance)
 
         case 3:
             fmt.Print("Withdrawal amount: ")
@@ -38,6 +74,7 @@ func main() {
             }
             accountBalance -= withdraw
             fmt.Printf("Your new balance is %.2f\n\n", accountBalance)
+            writeBalanceToFile(accountBalance)
 
         default:
             // break -> break inside a 'switch' statement will only break the switch statement, not the loop
