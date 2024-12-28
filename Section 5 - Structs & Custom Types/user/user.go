@@ -16,6 +16,26 @@ type User struct {
     birthDate string
     createdAt time.Time
 }
+type Admin struct {
+    email string
+    password string
+    User // similar to inheritance
+}
+func NewAdmin(e, p string) (*Admin, error) {
+    if e=="" || p=="" {
+        return nil, errors.New("email and password are required")
+    }
+    return &Admin{
+        email: e,
+        password: p,
+        User: User{
+            firstName: "ADMIN",
+            lastName: "ADMIN",
+            birthDate: "---",
+            createdAt: time.Now(),
+        },
+    }, nil
+}
 /*
 The constructor of a structure is only a convension, is not built in Golang.
 The convention name is 'new[structure name]'. It is not mandatory to be that way.
