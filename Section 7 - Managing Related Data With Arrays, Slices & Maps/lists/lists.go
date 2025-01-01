@@ -14,8 +14,18 @@ func main() {
     fmt.Println(prices[0:1])
     prices[1] = 9.99
 
+    // In 'append' you can add multiple values comma separated
+    prices = append(prices, 5.99, 12.99, 29.99, 100.10)
+    discountPrices := []float64{101.99, 80.99, 20.59}
+    // By putting '...' at the end of a array, it`s possible to
+    // pass all the elements of that array as arguments.
+    prices = append(prices, discountPrices...)
+    fmt.Println(prices)
+
+
     updatedPrices := append(prices, 5.99)
     fmt.Println(updatedPrices, prices)
+    slicesMain()
 }
 
 func slicesMain() {
