@@ -1,3 +1,3 @@
-module example.com/functions
+module example.com/variadic
 
 go 1.23.4

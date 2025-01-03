@@ -33,6 +33,7 @@ func transformNumbersDirect(numbers *[]int, transform transformIntFn) {
     }
     return dbNumbers
 } */
+
 func double (n int) int {
     return n*2
 }
