@@ -91,14 +91,24 @@ func (e Event) Update() error {
     UPDATE events
     SET name=?, description=?, location=?, dateTime=?
     WHERE id=?`
-
     _, err := db.DB.Exec(query, e.Name, e.Description, e.Location, e.DateTime, e.Id)
     return err
 }
 
 func (e Event) Delele() error {
     query := "DELETE FROM events WHERE id=?"
-
     _, err := db.DB.Exec(query, e.Id)
+    return err
+}
+
+func (e Event) Register(userId int64) error {
+    query := "INSERT INTO registrations(eventId, userId) VALUES (?, ?)"
+    _, err := db.DB.Exec(query, e.Id, userId)
+    return err
+}
+
+func (e Event) CancelRegistration(userId int64) error {
+    query := "DELETE FROM registrations WHERE eventId=? AND userId=?"
+    _, err := db.DB.Exec(query, e.Id, userId)
     return err
 }
