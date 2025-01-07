@@ -1,9 +1,10 @@
 package routes
+
 import (
     "net/http"
     "strconv"
-    "github.com/gin-gonic/gin"
     "example.com/rest-api/models"
+    "github.com/gin-gonic/gin"
 )
 
 func getEvent(context *gin.Context) {
@@ -38,8 +39,8 @@ func createEvent(context *gin.Context) {
         return
     }
 
-    event.Id = 1
-    event.UserId = 1
+    event.UserId = context.GetInt64("userId")
+
     err = event.Save()
     if err!=nil {
         context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create events.", "error_message": err.Error()})
